@@ -7,6 +7,7 @@ import { AssumptionsCard } from './AssumptionsCard';
 import { InputCard } from './InputCard';
 import DieselPVChart from './DieselPVChart';
 import DieselCharts from './DieselCharts';
+import { DieselStateTable } from './DieselStateTable';
 import {
   SlidersHorizontal,
   RotateCcw,
@@ -302,6 +303,10 @@ export default function DieselSection({
           </section>
         </div>
 
+        <DieselStateTable result={result} />
+
+        <DieselCharts rows={rows} />
+
         <section className="card commentary-card">
           <div className="card-head">
             <span className="card-head-icon" aria-hidden="true">
@@ -330,8 +335,6 @@ export default function DieselSection({
           columns={dieselColumns}
           rows={rows}
         />
-
-        <DieselCharts rows={rows} />
       </div>
     </section>
   );

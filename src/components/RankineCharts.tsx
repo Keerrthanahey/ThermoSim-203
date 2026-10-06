@@ -60,7 +60,7 @@ export default function RankineCharts({ rows, result }: RankineChartsProps) {
             <XAxis dataKey="capacityMw" tick={axisTick} stroke="rgba(120,150,200,0.3)" label={{ value: 'Plant capacity (MW)', position: 'insideBottom', offset: -2, fill: '#7c8db0', fontSize: 12 }} />
             <YAxis tick={axisTick} stroke="rgba(120,150,200,0.3)" tickFormatter={(v: number) => fmt(v)} width={54} />
             <Tooltip contentStyle={tooltipStyle} formatter={flowTooltip} labelFormatter={(label) => `${label} MW plant`} />
-            <Line type="monotone" dataKey="steamFlow" name="Steam flow" stroke={chartPalette.blue} strokeWidth={2.5} dot={{ r: 4, fill: chartPalette.blue }} activeDot={{ r: 6 }} />
+            <Line type="monotone" dataKey="steamFlow" name="Steam flow" stroke={chartPalette.blue} isAnimationActive={false} strokeWidth={2.5} dot={{ r: 4, fill: chartPalette.blue }} activeDot={{ r: 6 }} />
           </LineChart>
         </ResponsiveContainer>
       </ChartFrame>
@@ -72,7 +72,7 @@ export default function RankineCharts({ rows, result }: RankineChartsProps) {
             <XAxis dataKey="capacityMw" tick={axisTick} stroke="rgba(120,150,200,0.3)" label={{ value: 'Plant capacity (MW)', position: 'insideBottom', offset: -2, fill: '#7c8db0', fontSize: 12 }} />
             <YAxis tick={axisTick} stroke="rgba(120,150,200,0.3)" tickFormatter={(v: number) => fmt(v)} width={54} />
             <Tooltip contentStyle={tooltipStyle} formatter={dTcwTooltip} labelFormatter={(label) => `${label} MW plant`} />
-            <Line type="monotone" dataKey="dTcw" name="ΔT cooling water" stroke={chartPalette.cyan} strokeWidth={2.5} dot={{ r: 4, fill: chartPalette.cyan }} activeDot={{ r: 6 }} />
+            <Line type="monotone" dataKey="dTcw" name="ΔT cooling water" stroke={chartPalette.cyan} isAnimationActive={false} strokeWidth={2.5} dot={{ r: 4, fill: chartPalette.cyan }} activeDot={{ r: 6 }} />
           </LineChart>
         </ResponsiveContainer>
       </ChartFrame>
@@ -84,7 +84,7 @@ export default function RankineCharts({ rows, result }: RankineChartsProps) {
             <XAxis dataKey="capacityMw" tick={axisTick} stroke="rgba(120,150,200,0.3)" label={{ value: 'Plant capacity (MW)', position: 'insideBottom', offset: -2, fill: '#7c8db0', fontSize: 12 }} />
             <YAxis tick={axisTick} stroke="rgba(120,150,200,0.3)" tickFormatter={(v: number) => fmt(v)} width={54} domain={[0, 'auto']} />
             <Tooltip contentStyle={tooltipStyle} formatter={etaTooltip} labelFormatter={(label) => `${label} MW plant`} />
-            <Line type="monotone" dataKey="etaPct" name="Efficiency" stroke={chartPalette.teal} strokeWidth={2.5} dot={{ r: 4, fill: chartPalette.teal }} activeDot={{ r: 6 }} />
+            <Line type="monotone" dataKey="etaPct" name="Efficiency" stroke={chartPalette.teal} isAnimationActive={false} strokeWidth={2.5} dot={{ r: 4, fill: chartPalette.teal }} activeDot={{ r: 6 }} />
           </LineChart>
         </ResponsiveContainer>
       </ChartFrame>
@@ -97,7 +97,7 @@ export default function RankineCharts({ rows, result }: RankineChartsProps) {
             <YAxis tick={axisTick} stroke="rgba(120,150,200,0.3)" tickFormatter={(v: number) => fmt(v)} width={54} />
             <Tooltip contentStyle={tooltipStyle} formatter={(value: number) => [`${fmt(value)} kJ/kg`, 'Enthalpy']} labelFormatter={(label) => `State ${label}`} cursor={{ fill: 'rgba(120,150,200,0.08)' }} />
             <Legend wrapperStyle={{ fontSize: 12 }} />
-            <Bar dataKey="h" name="Enthalpy h (kJ/kg)" radius={[4, 4, 0, 0]}>
+            <Bar dataKey="h" name="Enthalpy h (kJ/kg)" radius={[4, 4, 0, 0]} isAnimationActive={false}>
               {enthalpyData.map((entry, i) => (
                 <Cell key={entry.state} fill={barColors[i % barColors.length]} />
               ))}

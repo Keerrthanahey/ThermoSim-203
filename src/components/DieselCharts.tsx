@@ -48,7 +48,7 @@ export default function DieselCharts({ rows }: DieselChartsProps) {
             <XAxis dataKey="r" tick={axisTick} stroke="rgba(120,150,200,0.3)" label={{ value: 'Compression ratio, r', position: 'insideBottom', offset: -2, fill: '#7c8db0', fontSize: 12 }} />
             <YAxis tick={axisTick} stroke="rgba(120,150,200,0.3)" tickFormatter={(v: number) => tickKw(v)} width={54} />
             <Tooltip contentStyle={tooltipStyle} formatter={powerTooltip} labelFormatter={(label) => `r = ${label}`} />
-            <Line type="monotone" dataKey="powerKw" name="Power" stroke={chartPalette.blue} strokeWidth={2.5} dot={{ r: 4, fill: chartPalette.blue }} activeDot={{ r: 6 }} />
+            <Line type="monotone" dataKey="powerKw" name="Power" stroke={chartPalette.blue} isAnimationActive={false} strokeWidth={2.5} dot={{ r: 4, fill: chartPalette.blue }} activeDot={{ r: 6 }} />
           </LineChart>
         </ResponsiveContainer>
       </ChartFrame>
@@ -60,7 +60,7 @@ export default function DieselCharts({ rows }: DieselChartsProps) {
             <XAxis dataKey="r" tick={axisTick} stroke="rgba(120,150,200,0.3)" label={{ value: 'Compression ratio, r', position: 'insideBottom', offset: -2, fill: '#7c8db0', fontSize: 12 }} />
             <YAxis tick={axisTick} stroke="rgba(120,150,200,0.3)" tickFormatter={(v: number) => tickPct(v / 100)} width={54} domain={[0, 100]} />
             <Tooltip contentStyle={tooltipStyle} formatter={etaTooltip} labelFormatter={(label) => `r = ${label}`} />
-            <Line type="monotone" dataKey="etaPct" name="Efficiency" stroke={chartPalette.teal} strokeWidth={2.5} dot={{ r: 4, fill: chartPalette.teal }} activeDot={{ r: 6 }} />
+            <Line type="monotone" dataKey="etaPct" name="Efficiency" stroke={chartPalette.teal} isAnimationActive={false} strokeWidth={2.5} dot={{ r: 4, fill: chartPalette.teal }} activeDot={{ r: 6 }} />
           </LineChart>
         </ResponsiveContainer>
       </ChartFrame>
@@ -72,7 +72,7 @@ export default function DieselCharts({ rows }: DieselChartsProps) {
             <XAxis dataKey="r" tick={axisTick} stroke="rgba(120,150,200,0.3)" label={{ value: 'Compression ratio, r', position: 'insideBottom', offset: -2, fill: '#7c8db0', fontSize: 12 }} />
             <YAxis tick={axisTick} stroke="rgba(120,150,200,0.3)" tickFormatter={(v: number) => `${fmt(v)}`} width={54} />
             <Tooltip contentStyle={tooltipStyle} formatter={wTooltip} labelFormatter={(label) => `r = ${label}`} />
-            <Line type="monotone" dataKey="wNet" name="Net work" stroke={chartPalette.cyan} strokeWidth={2.5} dot={{ r: 4, fill: chartPalette.cyan }} activeDot={{ r: 6 }} />
+            <Line type="monotone" dataKey="wNet" name="Net work" stroke={chartPalette.cyan} isAnimationActive={false} strokeWidth={2.5} dot={{ r: 4, fill: chartPalette.cyan }} activeDot={{ r: 6 }} />
           </LineChart>
         </ResponsiveContainer>
       </ChartFrame>
@@ -85,10 +85,10 @@ export default function DieselCharts({ rows }: DieselChartsProps) {
             <YAxis tick={axisTick} stroke="rgba(120,150,200,0.3)" tickFormatter={(v: number) => `${fmt(v)}`} width={54} />
             <Tooltip contentStyle={tooltipStyle} formatter={tTooltip} labelFormatter={(label) => `r = ${label}`} />
             <Legend wrapperStyle={{ fontSize: 12 }} iconType="plainline" />
-            <Line type="monotone" dataKey="t1c" name="T₁" stroke={chartPalette.gray} strokeWidth={2} dot={false} />
-            <Line type="monotone" dataKey="t2c" name="T₂" stroke={chartPalette.blue} strokeWidth={2.2} dot={{ r: 3 }} />
-            <Line type="monotone" dataKey="t3c" name="T₃" stroke={chartPalette.amber} strokeWidth={2.2} dot={{ r: 3 }} />
-            <Line type="monotone" dataKey="t4c" name="T₄" stroke={chartPalette.violet} strokeWidth={2.2} dot={{ r: 3 }} />
+            <Line type="monotone" dataKey="t1c" name="T₁" stroke={chartPalette.gray} isAnimationActive={false} strokeWidth={2} dot={false} />
+            <Line type="monotone" dataKey="t2c" name="T₂" stroke={chartPalette.blue} isAnimationActive={false} strokeWidth={2.2} dot={{ r: 3 }} />
+            <Line type="monotone" dataKey="t3c" name="T₃" stroke={chartPalette.amber} isAnimationActive={false} strokeWidth={2.2} dot={{ r: 3 }} />
+            <Line type="monotone" dataKey="t4c" name="T₄" stroke={chartPalette.violet} isAnimationActive={false} strokeWidth={2.2} dot={{ r: 3 }} />
           </LineChart>
         </ResponsiveContainer>
       </ChartFrame>

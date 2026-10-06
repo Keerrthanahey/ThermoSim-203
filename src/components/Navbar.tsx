@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Menu, X, Gauge, Waves, Activity, Sigma, Home } from 'lucide-react';
 import { assignment } from '../data/assignment';
 
@@ -12,16 +12,35 @@ const navItems = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
   const close = () => setOpen(false);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <nav className="navbar" aria-label="Primary navigation">
+    <nav
+      className={`navbar${scrolled ? ' navbar-scrolled' : ''}`}
+      aria-label="Primary navigation"
+    >
       <div className="navbar-inner">
         <a className="navbar-brand" href="#overview" onClick={close}>
           <span className="navbar-mark" aria-hidden="true">
             <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
-              <path d="M3 19 L9 8 L14 14 L21 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              <path
+                d="M3 19 L9 8 L14 14 L21 4"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
               <path d="M3 19 L21 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             </svg>
           </span>

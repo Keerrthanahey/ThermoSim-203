@@ -46,7 +46,7 @@ Requires Node.js ≥ 18 (tested with Node 24 / npm 11).
 
 ```bash
 npm install        # install dependencies
-npm run dev        # start the dev server (http://localhost:5173)
+npm run dev        # start the dev server (http://localhost:4001)
 npm run build      # type-check + production build -> dist/
 npm run preview    # serve the production build (http://localhost:4173)
 npm run lint       # TypeScript type-check only
@@ -113,6 +113,29 @@ Steady-flow ideal Rankine cycle using standard steam-table data:
 > approximations (ideal-gas superheat, Antoine saturation, Watson latent-heat
 > correction) and the UI shows the warning banner accordingly. This is a teaching
 > tool for the assigned cycle, not a general-purpose steam solver.
+
+## Spline 3D scene (optional)
+
+The header of the overview section has a technical visual area. By default it
+shows an embedded engineering placeholder (3D ENGINE MODEL) — no external
+dependency and no broken iframe.
+
+You can enable a live Spline scene by setting a build-time environment
+variable to a published Spline scene URL:
+
+```bash
+# .env  (or any environment the dev server / build reads)
+VITE_SPLINE_SCENE_URL=https://prod.spline.design/your-scene-id/scene.splinecode
+```
+
+- When `VITE_SPLINE_SCENE_URL` is set, the scene is loaded lazily through the
+  official `@splinetool/react-spline` runtime as a separate code-split chunk
+  (the whole app keeps working if Spline is unavailable — an error fallback
+  shows the placeholder again).
+- When it is empty (the default), the placeholder is shown and no Spline code
+  is loaded at run time.
+- Spline scenes are interactive by default (drag to orbit). Do not add a fake
+  URL: use a real published scene from <https://spline.design>.
 
 ## Deployment (GitHub Pages)
 
