@@ -8,6 +8,8 @@ import { InputCard } from './InputCard';
 import DieselPVChart from './DieselPVChart';
 import DieselCharts from './DieselCharts';
 import { DieselStateTable } from './DieselStateTable';
+import DieselCycleAnimation from './DieselCycleAnimation';
+import DieselEngineAnimation from './DieselEngineAnimation';
 import {
   SlidersHorizontal,
   RotateCcw,
@@ -283,6 +285,12 @@ export default function DieselSection({
               </>
             )}
           </section>
+        </div>
+
+        {/* Animated Diesel Cycle & Engine Visualizations */}
+        <div className="dash-grid">
+          <DieselCycleAnimation isVisible={true} />
+          <DieselEngineAnimation isVisible={true} rpm={inputs.rpm} />
         </div>
 
         <div className="dash-grid">

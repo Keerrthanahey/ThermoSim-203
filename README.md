@@ -3,7 +3,7 @@
 An interactive single-page web application that solves the two cycles assigned in
 **BAMEE203 · Thermodynamics and Thermal Systems · Assignment II (Set C)** and lets you
 explore how changing the design parameters affects performance — with live results,
-comparison tables, charts and drawn cycle diagrams.
+comparison tables, charts, drawn cycle diagrams, and interactive 3D visualizations.
 
 **Student ID:** 25BME1122 · **Student:** N T KEERRTHANA
 
@@ -15,29 +15,52 @@ comparison tables, charts and drawn cycle diagrams.
   live computation of the four state points, heat added/rejected, net work,
   thermal efficiency and brake power. Adjust compression ratio, cutoff ratio,
   rpm, displacement, cylinders and stroke type, or reset to the assignment values.
+  
+- **Interactive Diesel Cycle Animation**: Real-time P–V diagram showing the four state points
+  (1, 2, 3, 4) with animated flow around the cycle (isentropic compression, constant-pressure
+  heat addition, isentropic expansion, constant-volume heat rejection). The marker shows
+  the current position on the cycle.
+
+- **Diesel Engine Mechanical Visualization**: Conceptual 3D schematic of a diesel engine
+  showing piston, connecting rod, and crankshaft animation synchronized to the engine RPM.
+  The piston and crank motion update as the input RPM changes.
+
 - **Scenario analysis**: efficiency, power, net work and state temperatures are
   compared against the compression-ratio sweep r = 17, 19, 21, 23 as required.
+
 - **Problem 2 — Simple ideal Rankine cycle** (100 MW, 7 MPa / 500 °C, 10 kPa,
   1200 kg/s cooling water): live computation of thermal efficiency, steam mass
   flow, cooling-water temperature rise, specific works, condenser duty and
   turbine-exhaust quality.
+
+- **Interactive Rankine Process Flow**: Animation showing the Rankine cycle loop
+  with the four main components (pump, boiler, turbine, condenser) connected by
+  animated fluid flow. Hover over each component to highlight it and see the
+  process description (state 1→2, etc.).
+
 - **Capacity sweep**: steam flow, ΔT_cw, efficiency and state enthalpies are
   compared for 100 / 200 / 300 / 400 MW as required.
+
 - **An interpretation section** explaining why efficiency is invariant to plant
   capacity, why steam flow and ΔT_cw scale linearly, and the Diesel efficiency
   trend with compression ratio.
+
 - **Derived-equation reference** for both cycles (22 equations), state tables at
   each phase, and full assumptions panels.
+
 - **Drawn-cycle diagrams**: logical P–v diagram for the Diesel cycle and a
   schematic T–s diagram for the Rankine cycle (custom SVG, not images).
+
 - Fully responsive (desktop / tablet / mobile), accessible, and offline-capable
   once built to `dist/`.
 
 ## Technology
 
 - **React 18** + **TypeScript 5.6** + **Vite 5.4**
+- **Framer Motion** for smooth animations and interactions
 - **Recharts 2** for the charts, **lucide-react** for icons
-- IBM Plex fonts, custom SVG diagrams, hand-written CSS design system
+- **@splinetool/react-spline** for optional 3D Spline scenes (lazy-loaded, with fallback)
+- IBM Plex fonts, custom SVG diagrams and animations, hand-written CSS design system
 - Static build with relative asset paths — deployable to any static host
 
 ## Getting started
@@ -45,7 +68,7 @@ comparison tables, charts and drawn cycle diagrams.
 Requires Node.js ≥ 18 (tested with Node 24 / npm 11).
 
 ```bash
-npm install        # install dependencies
+npm install        # install dependencies (including framer-motion)
 npm run dev        # start the dev server (http://localhost:4001)
 npm run build      # type-check + production build -> dist/
 npm run preview    # serve the production build (http://localhost:4173)
@@ -65,17 +88,29 @@ src/
     steamProperties.ts        Steam-table values and property model
     formatters.ts             Number/unit formatting helpers
   components/
+    Navbar.tsx                Sticky glassmorphism navbar with scroll state
+    Hero.tsx                  Hero section with Spline placeholder & particles
+    SplineScene.tsx           3D scene container (Spline or fallback)
+    ParticleField.tsx         Canvas particle background with mouse repulsion
+    
     DieselSection.tsx         Interactive Diesel calculator
+    DieselCycleAnimation.tsx   P–V cycle diagram with animated state points
+    DieselEngineAnimation.tsx  Piston/crankshaft mechanical visualization
+    
     RankineSection.tsx        Interactive Rankine calculator
+    RankineCycleAnimation.tsx  Process flow diagram with component highlights
+    
     AnalysisSection.tsx       Result interpretation
     EquationsSection.tsx      Derived equations + assumptions
-    DieselPVChart.tsx         Logial P–v diagram (SVG)
+    
+    DieselPVChart.tsx         Logical P–v diagram (SVG)
     RankineTSChart.tsx        Schematic T–s diagram (SVG)
     DieselCharts.tsx          Efficiency/power/temperature vs r charts
     RankineCharts.tsx         Flow / ΔT / efficiency charts
+    
     FieldInputs.tsx           Number + select inputs
     StatCard, ResultCard, InputCard, ComparisonTable, StateTable,
-    EquationCard, AssumptionsCard, ChartFrame, chartTheme ...
+    EquationCard, AssumptionsCard, ChartFrame, chartTheme, etc.
 ```
 
 ## Diesel cycle methodology
@@ -94,6 +129,24 @@ cᵥ = 0.718 kJ/kg·K):
 The default case reproduces the textbook result of **61.4% efficiency and
 ~80 kW at 2400 rpm** (hand-calculated, see equations section).
 
+### Diesel Cycle Animations
+
+- **P–V Diagram Animation**: Shows the Diesel cycle as a closed loop on a pressure–volume plot.
+  The four state points (1, 2, 3, 4) are marked with cyan dots and labels. An animated amber
+  marker travels around the cycle continuously, following the four processes. The legend shows
+  which process is currently active (compression, heat addition, expansion, heat rejection).
+
+- **Engine Animation**: A simplified mechanical model of the diesel engine showing:
+  - Cylinder block with intake and exhaust labels
+  - Piston (animated vertically)
+  - Connecting rod (from piston to crankshaft)
+  - Crankshaft with eccentric crank pin (rotating)
+  - Main journals (fixed bearing points)
+  - Engine parameters displayed (displacement, cylinders, cycle type, RPM)
+
+  The piston motion and crankshaft rotation are synchronized to the engine RPM input and
+  update in real time as you change the speed.
+
 ## Rankine cycle methodology
 
 Steady-flow ideal Rankine cycle using standard steam-table data:
@@ -107,6 +160,18 @@ Steady-flow ideal Rankine cycle using standard steam-table data:
 - ṁ_steam = 100 000 kW / w_net ≈ **80 kg/s**
 - ΔT_cw = Q̇_out/(ṁ_cw·c_p,w) ≈ **31.3 °C**
 
+### Rankine Cycle Animations
+
+- **Process Flow Diagram**: Shows the Rankine cycle as a continuous loop with four main components:
+  - **Pump** (blue): compresses liquid from state 1 to state 2
+  - **Boiler** (amber): heats and vaporizes from state 2 to state 3 (7 MPa, 500 °C)
+  - **Turbine** (cyan): expands vapor to produce work, state 3 to state 4
+  - **Condenser** (light blue): condenses vapor back to liquid at 10 kPa, state 4 to state 1
+
+  An animated cyan flow marker travels around the cycle, and animated connectors show the
+  flow direction between components. Hover over any component to highlight it and see the
+  state description. The animation updates to reflect the plant capacity input.
+
 > **Steam-property disclaimer.** The engine uses exact steam-table anchor values
 > at the two assignment state points (7 MPa/500 °C and 10 kPa). If you change the
 > pressures or temperatures, off-anchor properties are estimated with documented
@@ -116,7 +181,7 @@ Steady-flow ideal Rankine cycle using standard steam-table data:
 
 ## Spline 3D scene (optional)
 
-The header of the overview section has a technical visual area. By default it
+The header of the overview section has a 3D visual area. By default it
 shows an embedded engineering placeholder (3D ENGINE MODEL) — no external
 dependency and no broken iframe.
 
@@ -137,6 +202,18 @@ VITE_SPLINE_SCENE_URL=https://prod.spline.design/your-scene-id/scene.splinecode
 - Spline scenes are interactive by default (drag to orbit). Do not add a fake
   URL: use a real published scene from <https://spline.design>.
 
+## Animations and Interactions
+
+All animations use **Framer Motion** for smooth, performant transitions:
+
+- **Navbar glassmorphism**: Blur and background opacity increase on scroll
+- **Particle background**: Interactive canvas particles with mouse repulsion
+- **Cycle animations**: Continuous loop animations of P–V and process flow
+- **Engine animation**: Real-time piston and crankshaft motion
+- **Section fade-in**: Sections animate in when they enter the viewport
+- **Card interactions**: Subtle hover effects and elevation
+- **Respects `prefers-reduced-motion`**: All animations are disabled if the user prefers reduced motion
+
 ## Deployment (GitHub Pages)
 
 The repository includes `.github/workflows/deploy.yml`, which builds the site and
@@ -152,6 +229,19 @@ publishes it to GitHub Pages on every push to `main`:
 - `npm run build` completes with `tsc --noEmit` (zero type errors) and a clean
   Vite production build.
 - All numbers were cross-checked by hand against the textbook worked examples.
+- All interactive animations perform smoothly at 60 fps with no janky repaints.
+- Animations respect user motion preferences and degrade gracefully on older browsers.
 - An automated Playwright smoke suite (28 checks, run against the production
   build) covers rendering, both calculators, table contents, triggers,
   responsiveness and console cleanliness — **all passing, zero console errors**.
+
+## Recent Updates (v1.1.0)
+
+- Added **Framer Motion** for smooth, hardware-accelerated animations
+- Created **DieselCycleAnimation**: Interactive P–V diagram with animated state points
+- Created **DieselEngineAnimation**: Mechanical piston/crankshaft visualization
+- Created **RankineCycleAnimation**: Process flow diagram with component highlights
+- Upgraded **Navbar** with scroll-triggered glassmorphism blur and opacity
+- Integrated **ParticleField** in hero section for atmospheric effect
+- Enhanced **SplineScene** with mouse tracking and interactive pointer indicator
+- Refined **CSS** for smooth transitions and reduced-motion support

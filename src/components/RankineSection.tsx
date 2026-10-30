@@ -7,6 +7,7 @@ import { StateTable } from './StateTable';
 import { InputCard } from './InputCard';
 import RankineTSChart from './RankineTSChart';
 import RankineCharts from './RankineCharts';
+import RankineCycleAnimation from './RankineCycleAnimation';
 import {
   SlidersHorizontal,
   RotateCcw,
@@ -248,6 +249,9 @@ export default function RankineSection({
           </section>
         </div>
 
+        {/* Rankine Cycle Process Animation */}
+        <RankineCycleAnimation isVisible={true} plantCapacity={inputs.plantCapacityMW} />
+
         <div className="dash-grid">
           <div className="dash-stack">
             <section className="card">
@@ -312,7 +316,7 @@ export default function RankineSection({
                   {fmtKJkg(result.qInKJkg)} = <strong>{fmtPercent(result.etaThermal)}</strong>.
                 </li>
                 <li>
-                  Steam flow ṁ_steam = Ẇ_plant / w_net = ({inputs.plantCapacityMW} × 1000 kW) ÷{' '}
+                  Steam flow ṁ_steam = Ẇ_plant / w_net = ({inputs.plantCapacityMW} × 1000 kW) ÷{' '}
                   {fmtKJkg(result.wNetKJkg)} = <strong>{fmt(result.steamMassFlowKgS)} kg/s</strong>.
                 </li>
                 <li>
